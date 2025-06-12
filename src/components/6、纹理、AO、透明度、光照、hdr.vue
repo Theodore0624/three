@@ -9,13 +9,13 @@ let planeGeo = new THREE.PlaneGeometry(1,1)
 
 // 创建纹理加载器
 let textureLoader = new THREE.TextureLoader()
-// 加载纹理（叠加）
+// 加载纹理（底图）
 let texture = textureLoader.load("./img/tietu2.jpg")
-// 加载ao贴图(底图)
+// 加载ao贴图(叠加)
 let aoMap = textureLoader.load("./img/tietu3.jpg")
-// 透明度贴图
+// 透明度贴图（白色部分显示 黑色不显示）
 let alphaMap = textureLoader.load("./img/透明度.jpg")
-// 光照贴图
+// 光照贴图（在反光的基础上 叠加反光的颜色）
 let lightMap = textureLoader.load("./img/光照贴图.jpg")
 
 let material = new THREE.MeshBasicMaterial({
