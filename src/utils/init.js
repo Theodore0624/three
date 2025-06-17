@@ -2,9 +2,12 @@ import * as THREE from "three";
 // 轨道控制器
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
+// 导入补间动画加载器
+import * as TWEEN from 'three/examples/jsm/libs/tween.module.js';
+
 export const threeClass = {
   init: class init {
-    constructor() {
+    constructor(param) {
       this.scene = null;
       this.controls = null;
       this.camera = null;
@@ -13,6 +16,9 @@ export const threeClass = {
       // 创建场景
       this.scene = new THREE.Scene();
 
+      // 补间动画
+      this.tween = []
+      
       // 创建相机
       this.camera = new THREE.PerspectiveCamera(
         45, //视角
@@ -35,12 +41,12 @@ export const threeClass = {
 
       this.controls.dampingFactor = 0.08;
 
-      this.camera.position.z = 5;
-      this.camera.position.y = 5;
-      this.camera.position.x = 5;
+      this.camera.position.set(5,5,5)
 
       this.camera.lookAt(3, 0, 0);
       this.animate = this.animate.bind(this);
+      this.FuncTween = this.FuncTween.bind(this);
+
 
       // 监听窗口变化
       window.addEventListener("resize", () => {
@@ -53,10 +59,20 @@ export const threeClass = {
       });
     }
     // 渲染函数
-    animate() {
-      requestAnimationFrame(this.animate);
-      this.controls.update();
-      this.renderer.render(this.scene, this.camera);
+    animate(param) {
+      const callback = ()=>{
+        this.controls.update();
+        this.renderer.render(this.scene, this.camera);
+        if(param.tween){
+          TWEEN.update()
+        }   
+        requestAnimationFrame(callback) 
+        }
+      callback()
+    }
+    FuncTween(param){
+      // 可能有多段动画
+      this.tween[param.index] = new TWEEN.Tween(param.tween.position)
     }
   },
 };
